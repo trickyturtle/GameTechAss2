@@ -14,17 +14,30 @@ public:
     GUI(Ogre::RenderWindow* mWindow);
     virtual ~GUI(void);
 
+
+    enum MenuState{MAIN, GAMEUI};
+    MenuState menuState;
+
     void update();
     void scorePoint();
     void lose();
+    void setupMainMenu();
+    void setupGameUI();
+    void setMenuState(MenuState state);
+
+
 
 private:
     //Ogre::Root* mRoot;
+
  
 protected:
     CEGUI::OgreRenderer* GUIRenderer;
 
     int mScore = 0;
+
+    CEGUI::Window* sheet;
+
     CEGUI::Window* score;
 
     CEGUI::Window* winBoard;
@@ -32,6 +45,16 @@ protected:
     CEGUI::Window* replayButton;
     CEGUI::Window* howToButton;
     CEGUI::Window* howToText;
+    CEGUI::Window* quitButton;
+
+    CEGUI::Window* singlePlayerButton;
+    CEGUI::Window* hostGameButton;
+    CEGUI::Window* joinGameButton;
+
+    CEGUI::Window* ipBox;
+    CEGUI::Window* ipAddressText;
+    CEGUI::Window* currentIPLabel;
+
     
  
     // virtual void createFrameListener(void);

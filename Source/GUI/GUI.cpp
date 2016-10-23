@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------
 GUI::GUI(Ogre::RenderWindow* mWindow)
 {
-    stopUpdating();
+    menuState = MAIN;
 
         //this.mRoot = mRoot;
     CEGUI::OgreRenderer& GUIRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
@@ -21,79 +21,42 @@ GUI::GUI(Ogre::RenderWindow* mWindow)
     //CEGUI::Font &font = fmg.createFreeTypeFont("futhark adapted", 20, true, "FutharkAdapted.ttf");
     
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "GameUI");
+    sheet = wmgr.createWindow("DefaultWindow", "GameUI");
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 
-    CEGUI::Window* quitButton = wmgr.createWindow("AlfiskoSkin/Button", "QuitButton");
+
+    quitButton = wmgr.createWindow("AlfiskoSkin/Button", "QuitButton");
     quitButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.0f, 0), CEGUI::UDim(0.0f, 0)),
         CEGUI::UVector2(CEGUI::UDim(0.1f, 0), CEGUI::UDim(0.05f, 0))));
     quitButton->setText("ESC = quit");
 
-    replayButton = wmgr.createWindow("AlfiskoSkin/Button", "ReplayButton");
-    replayButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.4f, 0)),
-        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.45f, 0))));
-    replayButton->setText("Replay");
-
-
-    // howToButton = wmgr.createWindow("AlfiskoSkin/Button", "HowToButton");
-    // howToButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.3f, 0)),
-    //     CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.35f, 0))));
-    // howToButton->setText("How To Play");
-
-    // howToText = wmgr.createWindow("AlfiskoSkin/MultiLineEditbox", "Instructions");
-    // howToText->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.125f, 0), CEGUI::UDim(0.35f, 0)),
-    //     CEGUI::UVector2(CEGUI::UDim(0.875f, 0), CEGUI::UDim(0.75f, 0))));
-    // howToText->setText(instructions);
-    // static_cast<CEGUI::MultiLineEditbox*>(howToText)->setReadOnly(true);
-
-
-
-
-    sheet->addChild(quitButton);
-    sheet->addChild(replayButton);
-    // sheet->addChild(howToButton);
-    // sheet->addChild(howToText);
-
-    replayButton->hide();
-
-    //***********************
-    //quitButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Game::Quit, this));
-    //replayButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Game::Replay, this));
     
+    singlePlayerButton = wmgr.createWindow("AlfiskoSkin/Button", "SinglePlayerButton");
+    singlePlayerButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.35f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.4f, 0))));
+    singlePlayerButton->setText("Single Player");
 
+    hostGameButton = wmgr.createWindow("AlfiskoSkin/Button", "HostGameButton");
+    hostGameButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.4f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.45f, 0))));
+    hostGameButton->setText("Host Game");
 
-    //howToButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Game::HowTo, this));
-
-
-    //CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
-
-    // CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    // CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet");
-    //CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
-
-    // CEGUI::Window *score = wmgr.createWindow("HUDDemo/PopupLabel", "GameUI/Score");
-    // score->setText("Score: ");
-    // score->setSize(CEGUI::USize(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-
-    // quit->setText("Quit");
-    // quit->setSize(CEGUI::USize(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-    //CEGUI::OgreRenderer* mRenderer;
-
-    // CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    // CEGUI::Window *sheet = wmgr.createWindow("DefaultWindow", "GameUI/Sheet");
-    //CEGUI::Window *sheet = CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow(); 
+    joinGameButton = wmgr.createWindow("AlfiskoSkin/Button", "JoinGameButton");
+    joinGameButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.5f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.55f, 0))));
+    joinGameButton->setText("Join Game");
 
     score = wmgr.createWindow("AlfiskoSkin/Label", "Score");
     score->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.0f, 0), CEGUI::UDim(0.92f, 0)),
     CEGUI::UVector2(CEGUI::UDim(0.2f, 0), CEGUI::UDim(1, 0))));
     score->setText("Score: 0");
 
-    winBoard = wmgr.createWindow("AlfiskoSkin/Editbox", "WinBoard");
-    winBoard->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.42f, 0), CEGUI::UDim(0.33f, 0)),
-        CEGUI::UVector2(CEGUI::UDim(0.58f, 0), CEGUI::UDim(0.4f, 0))));
-    winBoard->setText("     You Win!");
-    //winBoard->setDisabled(true);
-    winBoard->setMouseCursor("AlfiskoSkin/MouseArrow");
+    // winBoard = wmgr.createWindow("AlfiskoSkin/Editbox", "WinBoard");
+    // winBoard->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.42f, 0), CEGUI::UDim(0.33f, 0)),
+    //     CEGUI::UVector2(CEGUI::UDim(0.58f, 0), CEGUI::UDim(0.4f, 0))));
+    // winBoard->setText("     You Win!");
+    // //winBoard->setDisabled(true);
+    // winBoard->setMouseCursor("AlfiskoSkin/MouseArrow");
     //winBoard->hide();
 
     // loseBoard = wmgr.createWindow("AlfiskoSkin/Editbox", "LoseBoard");
@@ -104,11 +67,49 @@ GUI::GUI(Ogre::RenderWindow* mWindow)
     // loseBoard->setMouseCursor("AlfiskoSkin/MouseArrow");
     // loseBoard->hide();
 
-    sheet->addChild(score);
-    // sheet->addChild(winBoard);
-    // sheet->addChild(loseBoard);
 
-    // sheet->addChild(score);
+    replayButton = wmgr.createWindow("AlfiskoSkin/Button", "ReplayButton");
+    replayButton->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.4f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.45f, 0))));
+    replayButton->setText("Replay");
+
+
+    ipAddressText = wmgr.createWindow("AlfiskoSkin/Label", "Ip Address Text");
+    ipAddressText->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.525f, 0), CEGUI::UDim(0.45f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.725f, 0), CEGUI::UDim(0.5f, 0))));
+    ipAddressText->setText("IP Address");
+
+    ipBox = wmgr.createWindow("AlfiskoSkin/Editbox", "Ip Box");
+    ipBox->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.3f, 0), CEGUI::UDim(0.45f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.5f, 0))));
+
+    currentIPLabel = wmgr.createWindow("AlfiskoSkin/Label", "Current IP");
+    currentIPLabel->setArea(CEGUI::URect(CEGUI::UVector2(CEGUI::UDim(0.7f, 0), CEGUI::UDim(0.92f, 0)),
+        CEGUI::UVector2(CEGUI::UDim(0.92f, 0), CEGUI::UDim(1, 0))));
+    //currentIPLabel->setText(netManager->getIPstring());
+    currentIPLabel->setText("ip: ");
+
+
+
+    sheet->addChild(ipBox);
+    sheet->addChild(ipAddressText);
+    sheet->addChild(currentIPLabel);
+
+
+    sheet->addChild(score);
+    sheet->addChild(replayButton);
+    // sheet->addChild(howToButton);
+    // sheet->addChild(howToText);
+
+    replayButton->hide();
+
+    sheet->addChild(singlePlayerButton);
+    sheet->addChild(hostGameButton);
+    sheet->addChild(joinGameButton);
+
+    sheet->addChild(quitButton);
+
+
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
 }
 //-------------------------------------------------------------------------------------
@@ -123,8 +124,21 @@ void GUI::createGameUI(void)
 }
 
 void GUI::update()
+{   
+}
+
+void GUI::setMenuState(MenuState state)
 {
-    scorePoint();
+    menuState = state;
+    switch(state)
+    {
+        case MAIN:
+            setupMainMenu();
+            break;
+        case GAMEUI:
+            setupGameUI();
+            break;
+    }
 }
 
 void GUI::scorePoint()
@@ -195,4 +209,35 @@ bool GUI::quit(const CEGUI::EventArgs &e)
 {
     return true;
 }
- 
+
+void GUI::setupMainMenu()
+{
+    score->hide();
+    singlePlayerButton->show();
+    hostGameButton->show();
+    joinGameButton->show();
+    ipBox->show();
+    ipAddressText->show();
+    currentIPLabel->show();
+    //howToButton->show();
+
+
+    // singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::StartSinglePlayer, this));
+    // hostServerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::StartServer, this));
+    // joinServerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::JoinServer, this));
+
+}
+
+void GUI::setupGameUI()
+{
+    singlePlayerButton->hide();
+    hostGameButton->hide();
+    joinGameButton->hide();
+    ipBox->hide();
+    ipAddressText->hide();
+    currentIPLabel->hide();
+    score->show();
+
+
+    //replayButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::Replay, this));
+}
