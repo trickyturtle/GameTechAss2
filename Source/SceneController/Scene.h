@@ -1,6 +1,7 @@
 #pragma once
 
 #include <OgreSceneManager.h>
+#include "GUI.h"
 
 class Core;
 class Renderer;

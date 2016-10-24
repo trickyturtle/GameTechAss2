@@ -22,10 +22,12 @@
 #include "AudioPlayer.h"
 #include "Physics.h"
 #include "PaddleController.h"
-#include "GUI.h"
+
 
 using Ogre::Vector3;
 using Ogre::Quaternion;
+enum MenuState{MAIN, GAMEUI};
+MenuState menuState;
 
 namespace singlePlayer
 {
@@ -125,14 +127,14 @@ namespace scene1
 }
 namespace host
 {
-	void load()
+	void load(Core* core)
 	{
 
 	}
 }
 namespace join
 {
-	void load()
+	void load(Core* core)
 	{
 
 	}
@@ -147,17 +149,17 @@ void SceneController::initScenes ()
 void SceneController::JoinServer(){
 	Scene join(join::load);
 	addScene(join);
-	loadNextScene(false);
+	//loadNextScene(false);
 }
 
 void SceneController::HostServer(){
 	Scene host(host::load);
 	addScene(host);
-	loadNextScene(false);
+	//loadNextScene(false);
 }
 
-void SceneController::startSinglePlayer(Core* core){
+void SceneController::StartSinglePlayer(Core* core){
 	Scene singlePlayer(singlePlayer::load);
 	addScene(singlePlayer);
-	loadNextScene(false);
+	//loadNextScene(false);
 }

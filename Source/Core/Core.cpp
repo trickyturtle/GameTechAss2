@@ -55,7 +55,8 @@ void Core::createModules ()
 	}
 
 	// Create SceneController last, since it sets up the initial scene
-	loadModule(new SceneController(mRenderer));
+	mSceneController = new SceneController(mRenderer);
+	loadModule(mSceneController);
 }
 /// Add Modules above ///
 
@@ -218,6 +219,11 @@ Physics* Core::getPhysics ()
 GUI* Core::getGUI ()
 {
 	return mGUI;
+}
+
+SceneController* Core::getSceneController ()
+{
+	return mSceneController;
 }
 
 // module should not be in mUpdatingModules

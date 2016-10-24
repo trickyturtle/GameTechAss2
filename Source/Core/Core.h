@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "InputManager.h"
 #include "GUI.h"
+#include "SceneController.h"
 
 class Module;
 class Entity;
@@ -57,6 +58,7 @@ public:
 	Renderer* getRenderer();
 	Physics* getPhysics();
 	GUI* getGUI();
+	SceneController* getSceneController();
 
 // RESTRICTED API
 	// Enables/Disables updating of the given module, used by Module
@@ -77,6 +79,7 @@ private:
 	InputManager* mInputMgr = nullptr;
 	NetManager* mNetMgr = nullptr;
 	GUI* mGUI = nullptr;
+	SceneController* mSceneController = nullptr;
 
 	// Create/load the available modules
 	void createModules();

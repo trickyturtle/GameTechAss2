@@ -10,6 +10,7 @@
 #include <OISMouse.h>
 #include <OISKeyboard.h>
 #include <OISInputManager.h>
+#include "SceneController.h"
  
 class GUI : public Module
 {
@@ -18,15 +19,17 @@ class GUI : public Module
         virtual ~GUI(void);
 
 
-        enum MenuState{MAIN, GAMEUI};
-        MenuState menuState;
+        // enum MenuState{MAIN, GAMEUI};
+        // MenuState menuState;
+        bool main;
 
         void update();
         void scorePoint();
         void lose();
         void setupMainMenu();
         void setupGameUI();
-        void setMenuState(MenuState state);
+        //TODO: Change this to state based
+        void setMenuState(bool isMain);
 
 
 

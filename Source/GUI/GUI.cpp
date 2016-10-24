@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------
 GUI::GUI(Ogre::RenderWindow* mWindow)
 {
-    menuState = "MAIN";
+    //menuState = "MAIN";
 
         //this.mRoot = mRoot;
     CEGUI::OgreRenderer& GUIRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
@@ -128,17 +128,23 @@ void GUI::update()
 {   
 }
 
-void GUI::setMenuState(MenuState state)
+void GUI::setMenuState(bool isMain)
 {
-    menuState = state;
-    switch(state)
-    {
-        case "MAIN":
-            setupMainMenu();
-            break;
-        case "GAMEUI":
-            setupGameUI();
-            break;
+    // menuState = state;
+    // switch(state)
+    // {
+    //     case "MAIN":
+    //         setupMainMenu();
+    //         break;
+    //     case "GAMEUI":
+    //         setupGameUI();
+    //         break;
+    // }
+    if(isMain){
+        setupMainMenu();
+    }
+    else{
+        setupGameUI();
     }
 }
 
@@ -223,9 +229,9 @@ void GUI::setupMainMenu()
     //howToButton->show();
 
 
-    singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, this));
-    hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, this));
-    joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, this));
+    singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, this->getCore()->getSceneController()));
+    hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, this->getCore()->getSceneController()));
+    joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, this->getCore()->getSceneController()));
 
 }
 

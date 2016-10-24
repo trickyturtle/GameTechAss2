@@ -40,7 +40,7 @@ private:
 
 	void HostServer();
 
-	void startSinglePlayer(Core* core);
+	void StartSinglePlayer(Core* core);
 
 
 
