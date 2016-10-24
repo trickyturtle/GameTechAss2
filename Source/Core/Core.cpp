@@ -14,7 +14,6 @@
 /// Add Modules below ///
 #include "SceneController.h"
 #include "Audio.h"
-#include "GUI.h"
 #include "InputManager.h"
 #include "NetManager.h"
 
@@ -27,10 +26,10 @@ void Core::createModules ()
 	mRenderer = new Renderer(Ogre::ST_GENERIC);
 	loadModule(mRenderer);
 
-	GUI* gui = new GUI(mRenderer->getRenderWindow());
-	loadModule(gui);
+	mGUI = new GUI(mRenderer->getRenderWindow());
+	loadModule(mGUI);
 
-	mPhysics = new Physics(gui);
+	mPhysics = new Physics(mGUI);
 	loadModule(mPhysics);
 
 	loadModule(new Audio());
@@ -214,6 +213,11 @@ Renderer* Core::getRenderer ()
 Physics* Core::getPhysics ()
 {
 	return mPhysics;
+}
+
+GUI* Core::getGUI ()
+{
+	return mGUI;
 }
 
 // module should not be in mUpdatingModules

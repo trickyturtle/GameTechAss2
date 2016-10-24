@@ -4,6 +4,7 @@
 
 #include <list>
 #include "Scene.h"
+#include "GUI.h"
 
 class Renderer;
 
@@ -35,4 +36,12 @@ private:
 	// Adds the initial scenes to the scene list
 	// Implemented in Scenes.cpp
 	void initScenes();
+	void JoinServer();
+
+	void HostServer();
+
+	void startSinglePlayer(Core* core);
+
+
+
 };

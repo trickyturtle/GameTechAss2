@@ -22,11 +22,12 @@
 #include "AudioPlayer.h"
 #include "Physics.h"
 #include "PaddleController.h"
+#include "GUI.h"
 
 using Ogre::Vector3;
 using Ogre::Quaternion;
 
-namespace scene1
+namespace singlePlayer
 {
 	Ogre::SceneManager* mSceneMgr = nullptr;
 
@@ -41,6 +42,9 @@ namespace scene1
 		Renderer* renderer = core->getRenderer();
 		Physics* physics = core->getPhysics();
 		mSceneMgr = renderer->getSceneManager();
+		GUI* gui = core->getGUI();
+		MenuState state = GAMEUI;
+		gui->setMenuState(state);
 
 		// Set up scene lighting
 		mSceneMgr->setAmbientLight(Ogre::ColourValue(.2, .2, .3));
@@ -108,10 +112,52 @@ namespace scene1
 		constructWall(core, Vector3(0, 150, 50), Quaternion(Ogre::Degree(-90), Vector3(0, 0, 1)));
 		constructWall(core, Vector3(0, 250, 50), Quaternion(Ogre::Degree(-90), Vector3(0, 0, 1)));
 	}
+
+}
+namespace scene1
+{
+	void load(Core* core)
+	{
+		GUI* gui = core->getGUI();
+		MenuState state = MAIN;
+		gui->setMenuState(MAIN);
+	}
+}
+namespace host
+{
+	void load()
+	{
+
+	}
+}
+namespace join
+{
+	void load()
+	{
+
+	}
 }
 
 void SceneController::initScenes ()
 {
 	Scene scene1(scene1::load);
 	addScene(scene1);
+}
+
+void SceneController::JoinServer(){
+	Scene join(join::load);
+	addScene(join);
+	loadNextScene(false);
+}
+
+void SceneController::HostServer(){
+	Scene host(host::load);
+	addScene(host);
+	loadNextScene(false);
+}
+
+void SceneController::startSinglePlayer(Core* core){
+	Scene singlePlayer(singlePlayer::load);
+	addScene(singlePlayer);
+	loadNextScene(false);
 }

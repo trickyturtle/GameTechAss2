@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Core.h"
 
+
 SceneController::SceneController (Renderer* renderer)
 :	mRenderer(renderer)
 {
@@ -51,3 +52,4 @@ void SceneController::loadInitialScene ()
 	mCurScene = mSceneList.begin();
 	(*(mCurScene->loadScene))(getCore());
 }
+

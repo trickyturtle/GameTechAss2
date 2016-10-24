@@ -6,6 +6,7 @@
 #include <OgreQuaternion.h>
 #include "Transform.h"
 #include "InputManager.h"
+#include "GUI.h"
 
 class Module;
 class Entity;
@@ -55,6 +56,7 @@ public:
 
 	Renderer* getRenderer();
 	Physics* getPhysics();
+	GUI* getGUI();
 
 // RESTRICTED API
 	// Enables/Disables updating of the given module, used by Module
@@ -74,6 +76,7 @@ private:
 	Physics* mPhysics = nullptr;
 	InputManager* mInputMgr = nullptr;
 	NetManager* mNetMgr = nullptr;
+	GUI* mGUI = nullptr;
 
 	// Create/load the available modules
 	void createModules();

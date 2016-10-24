@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------
 GUI::GUI(Ogre::RenderWindow* mWindow)
 {
-    menuState = MAIN;
+    menuState = "MAIN";
 
         //this.mRoot = mRoot;
     CEGUI::OgreRenderer& GUIRenderer = CEGUI::OgreRenderer::bootstrapSystem(*mWindow);
@@ -111,6 +111,7 @@ GUI::GUI(Ogre::RenderWindow* mWindow)
 
 
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+    setupMainMenu();
 }
 //-------------------------------------------------------------------------------------
 GUI::~GUI(void)
@@ -132,10 +133,10 @@ void GUI::setMenuState(MenuState state)
     menuState = state;
     switch(state)
     {
-        case MAIN:
+        case "MAIN":
             setupMainMenu();
             break;
-        case GAMEUI:
+        case "GAMEUI":
             setupGameUI();
             break;
     }
@@ -222,9 +223,9 @@ void GUI::setupMainMenu()
     //howToButton->show();
 
 
-    // singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::StartSinglePlayer, this));
-    // hostServerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::StartServer, this));
-    // joinServerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::JoinServer, this));
+    singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, this));
+    hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, this));
+    joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, this));
 
 }
 
