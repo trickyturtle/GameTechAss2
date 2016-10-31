@@ -14,6 +14,8 @@ class Entity;
 class Renderer;
 class Physics;
 class NetManager;
+class GUI;
+class SceneController;
 
 using std::string;
 using Ogre::Vector3;

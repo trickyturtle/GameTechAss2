@@ -5,6 +5,7 @@
 #include <list>
 #include "Scene.h"
 #include "GUI.h"
+#include "Physics.h"
 
 class Renderer;
 
@@ -20,6 +21,12 @@ public:
 	// Load the next scene in the scene list
 	// if additive, prior scenes are not unloaded
 	void loadNextScene(bool additive = false);
+	bool JoinServer(const CEGUI::EventArgs &e);
+
+	bool HostServer(const CEGUI::EventArgs &e);
+
+	bool StartSinglePlayer(const CEGUI::EventArgs &e);
+
 
 protected:
 	void postLoad() override;
@@ -36,12 +43,5 @@ private:
 	// Adds the initial scenes to the scene list
 	// Implemented in Scenes.cpp
 	void initScenes();
-	void JoinServer();
-
-	void HostServer();
-
-	void StartSinglePlayer(Core* core);
-
-
 
 };

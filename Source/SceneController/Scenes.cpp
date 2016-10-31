@@ -98,9 +98,25 @@ namespace singlePlayer
 		ground->isGround = true;
 
 		// Set up walls
-		constructWall(core, Vector3(-50, 50, 0), Quaternion(Ogre::Degree(90), Vector3(1, 0, 0)));
-		constructWall(core, Vector3(-50, 150, 0), Quaternion(Ogre::Degree(90), Vector3(1, 0, 0)));
-		constructWall(core, Vector3(-50, 250, 0), Quaternion(Ogre::Degree(90), Vector3(1, 0, 0)));
+
+
+		// constructWall(core, createRigidbody, Vector3(1, 0, 3), Vector3(50, 1, 150), Vector3(0, 150, 50), Quaternion(Ogre::Degree(-90), Vector3(1, 0, 0)));
+		// constructWall(core, createRigidbody, Vector3(1, 0, 3), Vector3(50, 1, 150), Vector3(0, 150, -50), Quaternion(Ogre::Degree(90), Vector3(1, 0, 0)));
+
+		// constructWall(core, createRigidbody, Vector3(3, 0, 1), Vector3(150, 1, 50), Vector3(-50, 150, 0), Quaternion(Ogre::Degree(-90), Vector3(0, 0, 1)));
+		// constructWall(core, createRigidbody, Vector3(3, 0, 1), Vector3(150, 1, 50), Vector3(50, 150, 0), Quaternion(Ogre::Degree(90), Vector3(0, 0, 1)));
+
+		// if (server)
+		// {
+		// 	NetManager* netMgr = core->getNetManager();
+		// 	netMgr->startGameServer({paddle->getTransform()}, {sphere->getTransform()});
+		// }
+		// else if (client)
+		// {
+		// 	NetManager* netMgr = core->getNetManager();
+		// 	netMgr->startGameClient("128.83.144.123", {sphere->getTransform()}, {paddle->getTransform()});
+		// }
+	
 
 		constructWall(core, Vector3(50, 50, 0), Quaternion(Ogre::Degree(-90), Vector3(1, 0, 0)));
 		constructWall(core, Vector3(50, 150, 0), Quaternion(Ogre::Degree(-90), Vector3(1, 0, 0)));
@@ -120,9 +136,10 @@ namespace scene1
 {
 	void load(Core* core)
 	{
+		printf("******************************************************************In Scene1");
 		GUI* gui = core->getGUI();
 		MenuState state = MAIN;
-		gui->setMenuState(MAIN);
+		gui->setMenuState(true);
 	}
 }
 namespace host
@@ -142,24 +159,35 @@ namespace join
 
 void SceneController::initScenes ()
 {
+	// if(true)
+	// {
+	// 	Scene scene1(scene1::load);
+	// }
+	// else
+	// {
+	// 	Scene scene1(wellGame::loadGameClient);
+	// }
 	Scene scene1(scene1::load);
 	addScene(scene1);
 }
 
-void SceneController::JoinServer(){
+bool SceneController::JoinServer(const CEGUI::EventArgs &e){
 	Scene join(join::load);
 	addScene(join);
 	//loadNextScene(false);
+	return true;
 }
 
-void SceneController::HostServer(){
+bool SceneController::HostServer(const CEGUI::EventArgs &e){
 	Scene host(host::load);
 	addScene(host);
 	//loadNextScene(false);
+	return true;
 }
 
-void SceneController::StartSinglePlayer(Core* core){
+bool SceneController::StartSinglePlayer(const CEGUI::EventArgs &e){
 	Scene singlePlayer(singlePlayer::load);
 	addScene(singlePlayer);
-	//loadNextScene(false);
+	loadNextScene(false);
+	return true;
 }

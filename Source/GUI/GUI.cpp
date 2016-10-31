@@ -111,7 +111,6 @@ GUI::GUI(Ogre::RenderWindow* mWindow)
 
 
     CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
-    setupMainMenu();
 }
 //-------------------------------------------------------------------------------------
 GUI::~GUI(void)
@@ -219,6 +218,7 @@ bool GUI::quit(const CEGUI::EventArgs &e)
 
 void GUI::setupMainMenu()
 {
+    printf("IN SETUP MAIN MENU");
     score->hide();
     singlePlayerButton->show();
     hostGameButton->show();
@@ -228,10 +228,12 @@ void GUI::setupMainMenu()
     currentIPLabel->show();
     //howToButton->show();
 
+    mSceneController = getCore()->getSceneController();
 
-    //singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, this->getCore()->getSceneController()));
-    //hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, this->getCore()->getSceneController()));
-    //joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, this->getCore()->getSceneController()));
+
+    singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, mSceneController));
+    hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, mSceneController));
+    joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, mSceneController));
 
 }
 

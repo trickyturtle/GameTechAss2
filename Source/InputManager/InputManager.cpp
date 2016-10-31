@@ -62,27 +62,27 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
  
         // If possible create a buffered keyboard
         // (note: if below line doesn't compile, try:  if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0) {
-        //if( mInputSystem->numKeyboards() > 0 ) {
-        // if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0) {
-        //     mKeyboard = dynamic_cast<OIS::Keyboard*>( mInputSystem->createInputObject( OIS::OISKeyboard, true ) );
-        //     mKeyboard->setEventCallback( this );
-        // }
+        // if( mInputSystem->numKeyboards() > 0 ) {
+        if (mInputSystem->getNumberOfDevices(OIS::OISKeyboard) > 0) {
+            mKeyboard = dynamic_cast<OIS::Keyboard*>( mInputSystem->createInputObject( OIS::OISKeyboard, true ) );
+            mKeyboard->setEventCallback( this );
+        }
  
         // If possible create a buffered mouse
         // (note: if below line doesn't compile, try:  if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0) {
-        //if( mInputSystem->numMice() > 0 ) {
-        // if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0) {
-        //     mMouse = dynamic_cast<OIS::Mouse*>( mInputSystem->createInputObject( OIS::OISMouse, true ) );
-        //     // mMouse->setEventCallback( this );
+        // if( mInputSystem->numMice() > 0 ) {
+        if (mInputSystem->getNumberOfDevices(OIS::OISMouse) > 0) {
+            mMouse = dynamic_cast<OIS::Mouse*>( mInputSystem->createInputObject( OIS::OISMouse, true ) );
+            // mMouse->setEventCallback( this );
  
-        //     // Get window size
-        //     unsigned int width, height, depth;
-        //     int left, top;
-        //     renderWindow->getMetrics( width, height, depth, left, top );
+            // Get window size
+            unsigned int width, height, depth;
+            int left, top;
+            renderWindow->getMetrics( width, height, depth, left, top );
  
-        //     // Set mouse region
-        //     // this->setWindowExtents( width, height );
-        // }
+            // Set mouse region
+            // this->setWindowExtents( width, height );
+        }
     }
 }
  

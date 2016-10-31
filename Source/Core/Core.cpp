@@ -11,6 +11,7 @@
 #include "Physics.h"
 #include "Transform.h"
 
+
 /// Add Modules below ///
 #include "SceneController.h"
 #include "Audio.h"
@@ -19,7 +20,9 @@
 
 using Ogre::Vector3;
 
+
 bool server = true;
+
 
 void Core::createModules ()
 {
@@ -40,19 +43,6 @@ void Core::createModules ()
  	mNetMgr = new NetManager();
 	loadModule(mNetMgr);
 
-	//NETWORKING
-	mNetMgr->addNetworkInfo();
-	bool startServer = mNetMgr->startServer();
-	printf("\t\t\tstartServer: %d\n", startServer);
-
-	if (server)
-	{
-		mNetMgr->multiPlayerInit();
-	}
-	else
-	{
-		mNetMgr->pollForActivity(10000);
-	}
 
 	// Create SceneController last, since it sets up the initial scene
 	mSceneController = new SceneController(mRenderer);

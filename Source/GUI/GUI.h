@@ -11,6 +11,7 @@
 #include <OISKeyboard.h>
 #include <OISInputManager.h>
 #include "SceneController.h"
+#include "Core.h"
  
 class GUI : public Module
 {
@@ -39,6 +40,7 @@ class GUI : public Module
      
     protected:
         CEGUI::OgreRenderer* GUIRenderer;
+        SceneController* mSceneController = nullptr;
 
         int mScore = 0;
 
