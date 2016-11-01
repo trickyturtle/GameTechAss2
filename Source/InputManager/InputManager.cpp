@@ -198,14 +198,7 @@ bool InputManager::keyPressed( const OIS::KeyEvent &e ) {
     return true;
 
 
-    // if(cameraMan) cameraMan->injectKeyDown(e);
-    // mKeyPressed = e.key;
 
-    // CEGUI::GUIContext& cxt = CEGUI::System::getSingleton().getDefaultGUIContext();
-    // cxt.injectKeyDown((CEGUI::Key::Scan)e.key);
-    // cxt.injectChar((CEGUI::Key::Scan)e.text);
-
-    // return true;
 }
  
 bool InputManager::keyReleased( const OIS::KeyEvent &e ) {
@@ -223,11 +216,7 @@ bool InputManager::keyReleased( const OIS::KeyEvent &e ) {
 }
 
 
-// OIS::KeyCode InputManager::lastKeyPressed() {
-//     OIS::KeyCode ret = mKeyPressed;
-//     mKeyPressed = OIS::KC_UNASSIGNED;
-//     return ret;
-// }
+
  
 bool InputManager::mouseMoved( const OIS::MouseEvent &e ) {
     itMouseListener    = mMouseListeners.begin();
@@ -261,6 +250,7 @@ bool InputManager::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id
         if(!itMouseListener->second->mousePressed( e, id ))
             break;
     }
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
  
     return true;
 
@@ -276,7 +266,7 @@ bool InputManager::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID i
         if(!itMouseListener->second->mouseReleased( e, id ))
             break;
     }
- 
+    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
     return true;
 
     // CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
