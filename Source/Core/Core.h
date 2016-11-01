@@ -61,6 +61,7 @@ public:
 	Physics* getPhysics();
 	GUI* getGUI();
 	SceneController* getSceneController();
+	NetManager* getNetManager();
 
 // RESTRICTED API
 	// Enables/Disables updating of the given module, used by Module

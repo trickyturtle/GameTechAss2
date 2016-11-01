@@ -21,12 +21,10 @@ public:
 	// Load the next scene in the scene list
 	// if additive, prior scenes are not unloaded
 	void loadNextScene(bool additive = false);
-	bool JoinServer(const CEGUI::EventArgs &e);
 
-	bool HostServer(const CEGUI::EventArgs &e);
-
-	bool StartSinglePlayer(const CEGUI::EventArgs &e);
-
+	bool joinServer(const CEGUI::EventArgs &e);
+	bool hostServer(const CEGUI::EventArgs &e);
+	bool startSinglePlayer(const CEGUI::EventArgs &e);
 
 protected:
 	void postLoad() override;
