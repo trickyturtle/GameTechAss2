@@ -22,6 +22,7 @@
 #include "AudioPlayer.h"
 #include "Physics.h"
 #include "PaddleController.h"
+#include "GUIController.h"
 
 
 using Ogre::Vector3;
@@ -46,7 +47,7 @@ namespace singlePlayer
 		mSceneMgr = renderer->getSceneManager();
 		GUI* gui = core->getGUI();
 		MenuState state = GAMEUI;
-		gui->setMenuState(state);
+		gui->setMenuState(false);
 
 		// Set up scene lighting
 		mSceneMgr->setAmbientLight(Ogre::ColourValue(.2, .2, .3));
@@ -83,13 +84,19 @@ namespace singlePlayer
 		sphere->getTransform()->getSceneNode()->attachObject(mParticle);
 		mParticle->setEmitting(false);
 
+
 		// Set up paddle
 		Entity* paddle = core->createEntity(kCube, "Rockwall", true, Vector3(kScale, kScale, kScale), Vector3(0, 20, 0));
 		paddle->getTransform()->attachRigidbody(kCube, Vector3(kScale * 50, kScale * 50, kScale * 50), 0, 1);
 		paddle->isPaddle = true;
-		PaddleController* pt = paddle->createComponent<PaddleController>();
-		pt->mCamera = mainCam;
-		pt->ap = ap;
+		// PaddleController* pt = paddle->createComponent<PaddleController>();
+		// pt->mCamera = mainCam;
+		// pt->ap = ap;
+
+		//set up GUI controller
+		GUIController* guiCtrl = paddle->createComponent<GUIController>();
+		guiCtrl->mCamera = mainCam;
+		guiCtrl->ap = ap;
 
 
 		// Set up ground
@@ -134,12 +141,35 @@ namespace singlePlayer
 }
 namespace scene1
 {
+	Ogre::SceneManager* mSceneMgr = nullptr;
+	
 	void load(Core* core)
 	{
 		printf("******************************************************************In Scene1");
 		GUI* gui = core->getGUI();
 		MenuState state = MAIN;
 		gui->setMenuState(true);
+
+		constexpr float kScale = .1;
+
+		Renderer* renderer = core->getRenderer();
+		Physics* physics = core->getPhysics();
+		mSceneMgr = renderer->getSceneManager();
+		Ogre::Camera* mainCam = mSceneMgr->createCamera("Main Camera");
+
+		// Set up paddle
+		Entity* paddle = core->createEntity(kCube, "Rockwall", true, Vector3(kScale, kScale, kScale), Vector3(0, 20, 0));
+		paddle->getTransform()->attachRigidbody(kCube, Vector3(kScale * 50, kScale * 50, kScale * 50), 0, 1);
+		paddle->isPaddle = true;
+		// PaddleController* pt = paddle->createComponent<PaddleController>();
+		// pt->mCamera = mainCam;
+		// pt->ap = ap;
+
+
+		//set up GUI controller
+		GUIController* guiCtrl = paddle->createComponent<GUIController>();
+		guiCtrl->mCamera = mainCam;
+
 	}
 }
 namespace host

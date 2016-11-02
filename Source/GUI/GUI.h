@@ -13,7 +13,7 @@
 #include "SceneController.h"
 #include "Core.h"
  
-class GUI : public Module, public OIS::KeyListener, public OIS::MouseListener
+class GUI : public Module
 {
     public:
         GUI(Ogre::RenderWindow* mWindow);
@@ -33,21 +33,10 @@ class GUI : public Module, public OIS::KeyListener, public OIS::MouseListener
         void setupGameUI();
         //TODO: Change this to state based
         void setMenuState(bool isMain);
-        bool keyPressed(const OIS::KeyEvent& ke);
-        bool keyReleased(const OIS::KeyEvent& ke);
-
-        bool mouseMoved( const OIS::MouseEvent &e );
-        bool mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id );
-        bool mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id );
-
-        CEGUI::MouseButton convertButton(OIS::MouseButtonID buttonID);
-
 
 
     private:
         //Ogre::Root* mRoot;
-        int mouseXAxis;
-        int mouseYAxis;
 
      
     protected:

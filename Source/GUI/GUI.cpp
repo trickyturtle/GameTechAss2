@@ -126,12 +126,7 @@ void GUI::createGameUI(void)
 
 void GUI::update()
 {   
-    if(!fullyLoaded){
-        printf("***************LOAD STUFF*****************************\n");
-        getCore()->getModule<InputManager>()->addKeyListener( this, "GUIKeyListener" );
-        getCore()->getModule<InputManager>()->addMouseListener( this, "GUIMouseListener" );
-        fullyLoaded = true;
-    }
+
 }
 
 void GUI::setMenuState(bool isMain)
@@ -225,7 +220,7 @@ bool GUI::quit(const CEGUI::EventArgs &e)
 
 void GUI::setupMainMenu()
 {
-    printf("IN SETUP MAIN MENU");
+    printf("\nIN SETUP MAIN MENU\n");
     score->hide();
     singlePlayerButton->show();
     hostGameButton->show();
@@ -239,6 +234,7 @@ void GUI::setupMainMenu()
 
 
     singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, mSceneController));
+    printf("\nSINGLER PLAYER WAS SUBSCRIBED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, mSceneController));
     joinGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::JoinServer, mSceneController));
 
@@ -258,89 +254,3 @@ void GUI::setupGameUI()
     //replayButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Application::Replay, this));
 }
 
-bool GUI::keyPressed(const OIS::KeyEvent& ke)
-{
-    switch (ke.key)
-    {
-        case OIS::KC_ESCAPE:
-            getCore()->getRenderer()->mRunning = false;
-            break;
-        default:
-            break;
-
-    }
-    return true;
-}
-
-bool GUI::keyReleased( const OIS::KeyEvent &e ) {
-    return true;
-
-    // if(cameraMan) cameraMan->injectKeyUp(e);
-    // return true;
-}
-
-
-
- 
-bool GUI::mouseMoved( const OIS::MouseEvent &e ) {
-    // itMouseListener    = mMouseListeners.begin();
-    // itMouseListenerEnd = mMouseListeners.end();
-    // for(; itMouseListener != itMouseListenerEnd; ++itMouseListener ) {
-    //     if(!itMouseListener->second->mouseMoved( e ))
-    //         break;
-    // }
- 
-    // return true;
-
-    //if(cameraMan) cameraMan->injectMouseMove(e);
-
-    // From -width/2 to +width/2
-    mouseXAxis = (e.state.X.abs) - e.state.width/2;
-    mouseYAxis = (e.state.Y.abs) - e.state.height/2;
-
-    CEGUI::System &sys = CEGUI::System::getSingleton();
-    sys.getDefaultGUIContext().injectMousePosition(e.state.X.abs, e.state.Y.abs);
-    // Scroll wheel.
-    if (e.state.Z.rel)
-        sys.getDefaultGUIContext().injectMouseWheelChange(e.state.Z.rel / 120.0f);
-
-    return true;
-}
- 
-bool GUI::mousePressed( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
-
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
- 
-    return true;
-
-    // CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(convertButton(id));
-    // if(cameraMan) cameraMan->injectMouseDown(e, id);
-    // return true;
-}
- 
-bool GUI::mouseReleased( const OIS::MouseEvent &e, OIS::MouseButtonID id ) {
-
-    CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
-    return true;
-
-    // CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(convertButton(id));
-    // if(cameraMan) cameraMan->injectMouseUp(e, id);
-    // return true;
-}
-
-CEGUI::MouseButton GUI::convertButton(OIS::MouseButtonID buttonID) {
-    switch (buttonID)
-    {
-    case OIS::MB_Left:
-        return CEGUI::LeftButton;
- 
-    case OIS::MB_Right:
-        return CEGUI::RightButton;
- 
-    case OIS::MB_Middle:
-        return CEGUI::MiddleButton;
- 
-    default:
-        return CEGUI::LeftButton;
-    }
-}
