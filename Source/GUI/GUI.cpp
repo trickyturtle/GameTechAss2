@@ -233,7 +233,6 @@ void GUI::setupMainMenu()
     mSceneController = getCore()->getSceneController();
 
 
-
     singlePlayerButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::StartSinglePlayer, mSceneController));
     printf("\nSINGLER PLAYER WAS SUBSCRIBED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     hostGameButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&SceneController::HostServer, mSceneController));
