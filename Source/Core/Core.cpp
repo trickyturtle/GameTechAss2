@@ -1,5 +1,6 @@
 #include "Core.h"
 
+#include <iostream>
 #include <cassert>
 #include <algorithm>
 #include <btBulletDynamicsCommon.h>
@@ -22,7 +23,7 @@ using Ogre::Vector3;
 
 
 bool server = true;
-
+// bool server = false;
 
 void Core::createModules ()
 {
@@ -32,17 +33,16 @@ void Core::createModules ()
 	mGUI = new GUI(mRenderer->getRenderWindow());
 	loadModule(mGUI);
 
-	mPhysics = new Physics(mGUI);
+	mNetMgr = new NetManager();
+	loadModule(mNetMgr);
+
+	mPhysics = new Physics(mGUI, mNetMgr);
 	loadModule(mPhysics);
 
 	loadModule(new Audio());
 
 	mInputMgr = new InputManager(mRenderer->getRenderWindow());
 	loadModule(mInputMgr);
-
- 	mNetMgr = new NetManager();
-	loadModule(mNetMgr);
-
 
 	// Create SceneController last, since it sets up the initial scene
 	mSceneController = new SceneController(mRenderer);
@@ -52,7 +52,7 @@ void Core::createModules ()
 
 Core::Core ()
 {
-	constexpr size_t kNumModules = 6;
+	constexpr size_t kNumModules = 7;
 	mModules.reserve(kNumModules);
 	
 	createModules();
@@ -97,15 +97,17 @@ void Core::run ()
 				module->update();
 			}
 
-			// bool pollForActivity = mNetMgr->pollForActivity(0);
-			// printf("\t\t\tscanForActivity: %d\n", pollForActivity);
-
 			// Update physics
-			mPhysics->getWorld()->stepSimulation(kTimeStepS, 0);
-			for (Entity* entity : mEntities)
+			if (server)
 			{
-				if (entity->isUpdating())
-					entity->getTransform()->synchronizeSceneNode();
+				// mNetMgr->recieveGameServer();
+				mPhysics->getWorld()->stepSimulation(kTimeStepS, 0);
+				// mNetMgr->sendGameServer();
+			}
+			else
+			{
+				mNetMgr->sendGameClient();
+				mNetMgr->recieveGameClient();
 			}
 
 			accumulator -= kTimeStepMs;
@@ -196,11 +198,6 @@ Renderer* Core::getRenderer ()
 	return mRenderer;
 }
 
-// void Core::stopRenderer()
-// {
-// 	mRenderer = false;
-// }
-
 Physics* Core::getPhysics ()
 {
 	return mPhysics;
@@ -214,6 +211,11 @@ GUI* Core::getGUI ()
 SceneController* Core::getSceneController ()
 {
 	return mSceneController;
+}
+
+NetManager* Core::getNetManager ()
+{
+	return mNetMgr;
 }
 
 // module should not be in mUpdatingModules
@@ -262,16 +264,3 @@ void Core::unloadModule (Module* module, bool findAndRemove /* = true */)
 			stopUpdatingModule(module);
 	}
 }
-
-
-// bool Core::Quit(const CEGUI::EventArgs& e) {
-
-// 	mRenderer->mRunning = false;
-//     return true;
-// }
-
-// bool Core::Replay(const CEGUI::EventArgs &e) {
-
-// 	//TODO: reset values, start again
-// 	return true;
-// }

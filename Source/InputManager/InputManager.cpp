@@ -55,8 +55,10 @@ void InputManager::initialise( Ogre::RenderWindow *renderWindow ) {
  
         // Fill parameter list
         windowHndStr << windowHnd;
-        paramList.insert( std::make_pair( std::string( "WINDOW" ), windowHndStr.str() ) );
- 
+        paramList.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+        paramList.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+        paramList.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
+
         // Create inputsystem
         mInputSystem = OIS::InputManager::createInputSystem( paramList );
  
@@ -92,9 +94,9 @@ void InputManager::update( void ) {
     //     mMouse->capture();
     // }
  
-    // if( mKeyboard ) {
-    //     mKeyboard->capture();
-    // }
+    if( mKeyboard ) {
+        mKeyboard->capture();
+    }
  
 }
  
